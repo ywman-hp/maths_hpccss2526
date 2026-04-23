@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 10: Inequalities - Video Lesson</title>
+    <title>Chapter 10: Inequalities - Full Video Lesson</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         .fade-in { animation: fadeIn 0.5s ease-in; }
@@ -19,11 +19,11 @@
     <!-- Header -->
     <div class="max-w-5xl w-full text-center mb-8">
         <h1 class="text-3xl font-bold text-slate-800">Chapter 10: Inequalities</h1>
-        <p class="text-slate-600">Comprehensive Video Lesson & Step-by-Step Solutions</p>
+        <p class="text-slate-600">Full 10-Question Step-by-Step Video Lesson</p>
     </div>
 
     <!-- Main Video Container -->
-    <div class="max-w-6xl w-full bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[600px]">
+    <div class="max-w-6xl w-full bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[650px]">
         
         <!-- Screen Area -->
         <div class="flex-1 bg-slate-900 p-8 relative flex flex-col justify-center text-white min-h-[450px]">
@@ -37,14 +37,14 @@
                     <button id="prevBtn" class="p-2 hover:bg-white/20 rounded-full transition" title="Previous Question">
                         <svg width="24" height="24" fill="white" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
                     </button>
-                    <span id="slideCounter" class="text-sm font-mono tracking-widest bg-white/10 px-3 py-1 rounded">1 / 6</span>
+                    <span id="slideCounter" class="text-sm font-mono tracking-widest bg-white/10 px-3 py-1 rounded">1 / 10</span>
                     <button id="nextBtn" class="p-2 hover:bg-white/20 rounded-full transition" title="Next Question">
                         <svg width="24" height="24" fill="white" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
                     </button>
                 </div>
                 
                 <div class="flex gap-3">
-                    <button id="resetBtn" class="px-4 py-2 text-sm border border-white/30 rounded-full hover:bg-white/10 transition">Restart Slide</button>
+                    <button id="resetBtn" class="px-4 py-2 text-sm border border-white/30 rounded-full hover:bg-white/10 transition">Reset</button>
                     <button id="playBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2 rounded-full font-bold transition flex items-center gap-2 shadow-lg active:scale-95">
                         <span id="playIcon">▶</span> <span id="btnText">Play Lesson</span>
                     </button>
@@ -62,7 +62,7 @@
                 <!-- Steps injected here -->
             </div>
             <div class="mt-4 p-4 bg-blue-50 rounded-lg text-xs text-blue-700 leading-relaxed border border-blue-100">
-                <strong>Tip:</strong> Press "Play Lesson" to hear the teacher's explanation for each mathematical step.
+                <strong>Student Guide:</strong> Press the play button to hear the explanation for each line.
             </div>
         </div>
     </div>
@@ -72,69 +72,96 @@
             {
                 q: "1. Find the least positive integer which satisfies x - 6 ≤ 2 - 3x.",
                 steps: [
-                    { text: "Original Inequality: x - 6 ≤ 2 - 3x", audio: "Let's find the least positive integer. First, start with the given inequality." },
-                    { text: "Add 3x to both sides: 4x - 6 ≤ 2", audio: "Move the variable terms together by adding 3x to both sides." },
-                    { text: "Add 6 to both sides: 4x ≤ 8", audio: "Now, isolate the constant on the right side by adding 6." },
-                    { text: "Divide by 4: x ≤ 2", audio: "Dividing by 4 gives us x is less than or equal to 2." },
-                    { text: "Possible positive integers: {1, 2}", audio: "The positive integers meeting this condition are 1 and 2." },
-                    { text: "Least positive integer: 1", audio: "Out of these, the smallest or least value is 1." }
+                    { text: "Original: x - 6 ≤ 2 - 3x", audio: "Let's find the least positive integer. We start with x minus 6 is less than or equal to 2 minus 3 x." },
+                    { text: "Combine x: 4x ≤ 8", audio: "Add 3x and 6 to both sides to get 4x is less than or equal to 8." },
+                    { text: "Solve: x ≤ 2", audio: "Divide by 4. So x is 2 or less." },
+                    { text: "Positive Integers: {1, 2}", audio: "The positive integers fitting this are 1 and 2." },
+                    { text: "Least Value: 1", audio: "The smallest of these is 1." }
                 ],
                 answer: "C"
             },
             {
-                q: "3. Solve the compound inequality x + 9 < 8 or 3(5 + x) < –12.",
+                q: "2. If a/b > 1, which must be true? (I) a > b (II) a² > b² (III) ab > 0",
                 steps: [
-                    { text: "Solve Part A: x + 9 < 8 → x < -1", audio: "For the first part of the 'or' condition, we subtract 9 to find x is less than negative 1." },
-                    { text: "Solve Part B: 3(5 + x) < -12", audio: "For the second part, we begin by dividing both sides by 3." },
-                    { text: "Simplify: 5 + x < -4", audio: "This leaves us with 5 plus x is less than negative 4." },
-                    { text: "Solve Part B: x < -9", audio: "Subtract 5 to find x is less than negative 9." },
-                    { text: "Combine with 'OR': x < -1", audio: "In an 'OR' inequality, we take the union. Since x less than negative 1 already includes all values less than negative 9, the final solution is x less than negative 1." }
-                ],
-                answer: "A"
-            },
-            {
-                q: "5. Find the greatest integer satisfying: (1-x)/2 > 3x - 10 or 2x + 7 ≤ 1.",
-                steps: [
-                    { text: "Inequality A: (1 - x) > 2(3x - 10)", audio: "Multiply by 2 to clear the fraction. Be careful to multiply the entire right side." },
-                    { text: "Expand: 1 - x > 6x - 20", audio: "Simplify to 1 minus x is greater than 6x minus 20." },
-                    { text: "Solve: -7x > -21 → x < 3", audio: "Moving terms results in negative 7x greater than negative 21. Remember, dividing by a negative flips the sign. So x is less than 3." },
-                    { text: "Inequality B: 2x ≤ -6 → x ≤ -3", audio: "The second part is simpler. Subtract 7 and divide by 2 to get x is less than or equal to negative 3." },
-                    { text: "Combine 'OR': x < 3", audio: "The range x less than 3 includes everything in the other range. So x less than 3 is our focus." },
-                    { text: "Greatest integer: 2", audio: "Since x must be strictly less than 3, the largest whole number possible is 2." }
-                ],
-                answer: "C"
-            },
-            {
-                q: "7. Solve the quadratic inequality: x² - x - 2 < 0.",
-                steps: [
-                    { text: "Factorize: (x + 1)(x - 2) < 0", audio: "Factor the quadratic into x plus 1 and x minus 2." },
-                    { text: "Critical Values: x = -1 and x = 2", audio: "The expression equals zero at negative 1 and 2." },
-                    { text: "Visualize Parabola", audio: "Since the leading coefficient is positive, the graph is a U-shape opening upwards." },
-                    { text: "Determine Range: -1 < x < 2", audio: "We want the part 'less than zero', which is the segment of the graph below the x-axis, located between our two roots." }
+                    { text: "Analyze I: If b < 0, then a < b", audio: "If b is negative, like negative 2, then a must be negative 4 for the ratio to be 2. In that case, negative 4 is not greater than negative 2. So I is not always true." },
+                    { text: "Analyze II: (a/b)² > 1² → a²/b² > 1", audio: "Since the absolute value of the ratio is greater than 1, squaring both sides confirms a squared is always greater than b squared." },
+                    { text: "Analyze III: a/b > 1 → ab > 0", audio: "For the ratio to be positive, both numbers must have the same sign. Therefore their product is always positive." }
                 ],
                 answer: "D"
             },
             {
-                q: "9. Find max integral k such that x² - 2kx + 2 - k ≥ 0 for all real x.",
+                q: "3. Solve x + 9 < 8 or 3(5 + x) < -12.",
                 steps: [
-                    { text: "Condition for always non-negative: Δ ≤ 0", audio: "For a quadratic to always be 0 or greater, its discriminant must be less than or equal to zero." },
-                    { text: "Calculate Δ: (-2k)² - 4(1)(2 - k)", audio: "Using the formula b squared minus 4 a c." },
-                    { text: "Simplify: 4k² - 8 + 4k ≤ 0", audio: "Divide the whole inequality by 4 to make it easier." },
-                    { text: "Solve: k² + k - 2 ≤ 0", audio: "Factor this into k plus 2 and k minus 1." },
-                    { text: "Range: -2 ≤ k ≤ 1", audio: "The values for k are between negative 2 and positive 1 inclusive." },
-                    { text: "Greatest integer: k = 1", audio: "The largest whole number in this range is 1." }
+                    { text: "Part A: x < -1", audio: "Subtract 9 from the first inequality to get x is less than negative 1." },
+                    { text: "Part B: 5 + x < -4 → x < -9", audio: "Divide the second part by 3, then subtract 5. x is less than negative 9." },
+                    { text: "Combine (OR): x < -1", audio: "Since x less than negative 1 already includes all numbers less than negative 9, the union of these sets is just x less than negative 1." }
+                ],
+                answer: "A"
+            },
+            {
+                q: "4. Solve (x - 2)/3 - (x - 3)/4 ≥ 1.",
+                steps: [
+                    { text: "Multiply by 12: 4(x - 2) - 3(x - 3) ≥ 12", audio: "Multiply the entire inequality by 12 to remove the denominators." },
+                    { text: "Expand: 4x - 8 - 3x + 9 ≥ 12", audio: "Expand the brackets, being careful with the negative signs." },
+                    { text: "Simplify: x + 1 ≥ 12", audio: "4x minus 3x is x, and negative 8 plus 9 is 1." },
+                    { text: "Result: x ≥ 11", audio: "Subtract 1 to find x is 11 or greater." }
+                ],
+                answer: "D"
+            },
+            {
+                q: "5. Find the greatest integer: (1-x)/2 > 3x - 10 or 2x + 7 ≤ 1.",
+                steps: [
+                    { text: "Inequality A: x < 3", audio: "Solving the first part, we find x is strictly less than 3." },
+                    { text: "Inequality B: x ≤ -3", audio: "Solving the second part, we find x is negative 3 or less." },
+                    { text: "Combine (OR): x < 3", audio: "The combined solution is x less than 3." },
+                    { text: "Greatest Integer: 2", audio: "The largest whole number strictly less than 3 is 2." }
+                ],
+                answer: "C"
+            },
+            {
+                q: "6. Solve the inequality (2x - 3)(x + 5) > 0.",
+                steps: [
+                    { text: "Roots: x = 1.5, x = -5", audio: "The expression is zero at 1 point 5 and negative 5." },
+                    { text: "Condition: Product > 0", audio: "We want the product to be positive." },
+                    { text: "Solution: x < -5 or x > 1.5", audio: "This happens when both factors are negative, or both are positive. This corresponds to the outer regions." }
+                ],
+                answer: "B"
+            },
+            {
+                q: "7. Solve x² - x - 2 < 0.",
+                steps: [
+                    { text: "Factor: (x + 1)(x - 2) < 0", audio: "Factor the quadratic into x plus 1 times x minus 2." },
+                    { text: "Roots: -1 and 2", audio: "The critical values are negative 1 and positive 2." },
+                    { text: "Range: -1 < x < 2", audio: "Since we want the part less than zero, we take the interval between the roots." }
+                ],
+                answer: "D"
+            },
+            {
+                q: "8. Solve the inequality represented by the graph (y = 2(x+1)² - 32 < 0).",
+                steps: [
+                    { text: "Find intercepts: 2(x + 1)² = 32", audio: "Set the equation to zero to find the x-intercepts." },
+                    { text: "Solve: (x + 1)² = 16 → x = 3, -5", audio: "The intercepts are at 3 and negative 5." },
+                    { text: "Interpret Graph: x < -5 or x > 3", audio: "Based on the provided solution graph, the shaded area is in the outer regions." }
+                ],
+                answer: "A"
+            },
+            {
+                q: "9. Find max integral k such that x² - 2kx + 2 - k ≥ 0 for all x.",
+                steps: [
+                    { text: "Discriminant: Δ ≤ 0", audio: "For the quadratic to never be negative, the discriminant must be 0 or less." },
+                    { text: "Calc: 4k² - 4(2 - k) ≤ 0", audio: "This simplifies to k squared plus k minus 2 is less than or equal to zero." },
+                    { text: "Range: -2 ≤ k ≤ 1", audio: "Factorizing gives k between negative 2 and 1." },
+                    { text: "Max Integer: 1", audio: "The largest integer in this range is 1." }
                 ],
                 answer: "B"
             },
             {
                 q: "10. Find k such that y = x² + kx + 9 and y = 2x - 7 have 2 intersections.",
                 steps: [
-                    { text: "Equate equations: x² + kx + 9 = 2x - 7", audio: "Set the curves equal to each other to find where they meet." },
-                    { text: "Form Quadratic: x² + (k - 2)x + 16 = 0", audio: "Rearrange everything to one side to set it to zero." },
-                    { text: "Condition: Δ > 0", audio: "Two intersections mean the discriminant of this new quadratic must be strictly greater than zero." },
-                    { text: "Calculate: (k - 2)² - 4(1)(16) > 0", audio: "Plug in the values: k minus 2 squared, minus 64." },
-                    { text: "Solve: (k - 2)² > 64", audio: "This means k minus 2 is greater than 8, or less than negative 8." },
-                    { text: "Final Range: k < -6 or k > 10", audio: "Solving for k gives us our final ranges." }
+                    { text: "Form Eq: x² + (k - 2)x + 16 = 0", audio: "Equate both expressions and move everything to one side." },
+                    { text: "Condition: Δ > 0", audio: "Two intersections mean the discriminant must be positive." },
+                    { text: "Solve: (k - 2)² > 64", audio: "Taking the root, k minus 2 is greater than 8 or less than negative 8." },
+                    { text: "Final: k < -6 or k > 10", audio: "This gives our final solution for k." }
                 ],
                 answer: "D"
             }
@@ -142,7 +169,7 @@
 
         let currentQIndex = 0;
         let isPlaying = false;
-        const apiKey = ""; // Set by environment
+        const apiKey = ""; 
 
         const slideContent = document.getElementById('slide-content');
         const stepList = document.getElementById('step-list');
@@ -159,14 +186,13 @@
             statusBadge.className = "px-2 py-0.5 bg-slate-200 text-[10px] rounded text-slate-500 italic";
             
             slideContent.innerHTML = `
-                <div class="mb-8">
-                    <span class="text-blue-400 text-xs font-bold uppercase tracking-widest bg-blue-400/10 px-2 py-1 rounded">Case Study</span>
-                    <p class="text-2xl font-medium mt-4 leading-relaxed">${q.q}</p>
+                <div class="mb-6">
+                    <span class="text-blue-400 text-xs font-bold uppercase tracking-widest bg-blue-400/10 px-2 py-1 rounded">Problem ${currentQIndex + 1}</span>
+                    <p class="text-xl md:text-2xl font-medium mt-4 leading-relaxed">${q.q}</p>
                 </div>
-                <div id="solution-box" class="space-y-4"></div>
-                <div id="answer-reveal" class="mt-auto pt-6 text-2xl font-bold text-green-400 opacity-0 transition-opacity duration-1000 flex items-center gap-3">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-                    Correct Answer: ${q.answer}
+                <div id="solution-box" class="space-y-3"></div>
+                <div id="answer-reveal" class="mt-auto pt-4 text-2xl font-bold text-green-400 opacity-0 transition-opacity duration-1000 flex items-center gap-2">
+                    <span class="text-3xl">✓</span> Correct Answer: ${q.answer}
                 </div>
             `;
             
@@ -174,7 +200,7 @@
             q.steps.forEach((step, idx) => {
                 const div = document.createElement('div');
                 div.id = `step-item-${idx}`;
-                div.className = "text-slate-500 transition-all duration-500 p-2 rounded";
+                div.className = "text-slate-500 transition-all duration-500 p-2 rounded cursor-default";
                 div.innerText = step.text;
                 stepList.appendChild(div);
             });
@@ -209,7 +235,6 @@
                     audio.play();
                 });
             } catch (e) {
-                console.error("TTS Failed", e);
                 return new Promise(resolve => setTimeout(resolve, 2500));
             }
         }
@@ -225,13 +250,9 @@
             view.setUint32(4, 36 + buffer.byteLength, true);
             writeString(8, 'WAVE');
             writeString(12, 'fmt ');
-            view.setUint32(16, 16, true);
-            view.setUint16(20, 1, true);
-            view.setUint16(22, 1, true);
-            view.setUint32(24, sampleRate, true);
-            view.setUint32(28, sampleRate * 2, true);
-            view.setUint16(32, 2, true);
-            view.setUint16(34, 16, true);
+            view.setUint32(16, 16, true); view.setUint16(20, 1, true); view.setUint16(22, 1, true);
+            view.setUint32(24, sampleRate, true); view.setUint32(28, sampleRate * 2, true);
+            view.setUint16(32, 2, true); view.setUint16(34, 16, true);
             writeString(36, 'data');
             view.setUint32(40, buffer.byteLength, true);
             return new Blob([wavHeader, buffer], { type: 'audio/wav' });
@@ -243,7 +264,7 @@
             playBtn.classList.add('opacity-50');
             playIcon.innerText = "⏳";
             btnText.innerText = "Playing...";
-            statusBadge.innerText = "Teaching";
+            statusBadge.innerText = "Recording";
             statusBadge.className = "px-2 py-0.5 bg-blue-100 text-[10px] rounded text-blue-600 font-bold animate-pulse";
 
             const q = questions[currentQIndex];
@@ -252,16 +273,14 @@
 
             for (let i = 0; i < q.steps.length; i++) {
                 if (!isPlaying) break;
-
                 const stepItems = stepList.querySelectorAll('div');
                 stepItems.forEach(item => item.classList.remove('active-step', 'text-blue-600', 'font-bold'));
                 const currentItem = document.getElementById(`step-item-${i}`);
                 currentItem.classList.add('active-step', 'text-blue-600', 'font-bold');
-                currentItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
                 const stepDiv = document.createElement('div');
-                stepDiv.className = "fade-in text-lg font-mono bg-white/5 p-4 rounded-lg border border-white/10 flex items-start gap-3 shadow-sm";
-                stepDiv.innerHTML = `<span class="text-blue-400 mt-1 font-bold">Step ${i+1}:</span> <div class="flex-1">${q.steps[i].text}</div>`;
+                stepDiv.className = "fade-in text-lg font-mono bg-white/5 p-3 rounded border border-white/10 shadow-sm";
+                stepDiv.innerHTML = `<span class="text-blue-400 mr-2 font-bold">Step ${i+1}:</span> ${q.steps[i].text}`;
                 solutionBox.appendChild(stepDiv);
 
                 await speak(q.steps[i].audio);
@@ -269,34 +288,22 @@
 
             if (isPlaying) {
                 document.getElementById('answer-reveal').style.opacity = '1';
-                await speak(`Therefore, the correct answer is option ${q.answer}.`);
+                await speak(`The final answer is ${q.answer}.`);
             }
 
             isPlaying = false;
             playBtn.classList.remove('opacity-50');
             playIcon.innerText = "▶";
             btnText.innerText = "Replay Lesson";
-            statusBadge.innerText = "Finished";
+            statusBadge.innerText = "Done";
             statusBadge.className = "px-2 py-0.5 bg-green-100 text-[10px] rounded text-green-600 font-bold";
         }
 
-        document.getElementById('nextBtn').onclick = () => {
-            currentQIndex = (currentQIndex + 1) % questions.length;
-            updateSlide();
-        };
-
-        document.getElementById('prevBtn').onclick = () => {
-            currentQIndex = (currentQIndex - 1 + questions.length) % questions.length;
-            updateSlide();
-        };
-
-        document.getElementById('resetBtn').onclick = () => {
-            updateSlide();
-        };
-
+        document.getElementById('nextBtn').onclick = () => { if(!isPlaying) { currentQIndex = (currentQIndex + 1) % questions.length; updateSlide(); }};
+        document.getElementById('prevBtn').onclick = () => { if(!isPlaying) { currentQIndex = (currentQIndex - 1 + questions.length) % questions.length; updateSlide(); }};
+        document.getElementById('resetBtn').onclick = () => { if(!isPlaying) updateSlide(); };
         playBtn.onclick = playLesson;
 
-        // Start
         window.onload = updateSlide;
     </script>
 </body>
