@@ -3,215 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 10: Inequalities - Full Video Lesson</title>
+    <title>Chapter 10: Inequalities Masterclass</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .fade-in { animation: fadeIn 0.5s ease-in; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .active-step { border-left: 4px solid #3b82f6; padding-left: 1rem; background: #f0f9ff; transition: all 0.3s; }
-        .equation { font-family: 'Times New Roman', serif; font-style: italic; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;600;700&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: white; overflow: hidden; }
+        .whiteboard { background: #ffffff; color: #1e293b; border-radius: 16px; height: 540px; position: relative; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+        .chalk-line { font-family: 'Fira Code', monospace; font-size: 1.25rem; position: absolute; opacity: 0; transform: translateX(-10px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); width: 90%; border-left: 4px solid transparent; padding-left: 15px; }
+        .chalk-line.visible { opacity: 1; transform: translateX(0); border-left-color: #3b82f6; }
+        .highlight { color: #2563eb; font-weight: 700; }
+        .progress-bar { height: 8px; background: #334155; width: 100%; border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #3b82f6, #60a5fa); width: 0%; transition: width 0.4s ease; }
+        
+        .btn-control { @apply p-3 hover:bg-slate-700 rounded-xl transition-all active:scale-90 disabled:opacity-20; }
     </style>
 </head>
-<body class="bg-slate-100 min-h-screen flex flex-col items-center p-4 md:p-8">
+<body class="p-4 md:p-8 flex flex-col items-center min-h-screen">
 
-    <!-- Header -->
-    <div class="max-w-5xl w-full text-center mb-8">
-        <h1 class="text-3xl font-bold text-slate-800">Chapter 10: Inequalities</h1>
-        <p class="text-slate-600">Full 10-Question Step-by-Step Video Lesson</p>
-    </div>
+    <div class="max-w-5xl w-full space-y-6">
+        <header class="flex justify-between items-end">
+            <div>
+                <h1 class="text-3xl font-extrabold text-white tracking-tight">Chapter 10 Tutorial</h1>
+                <p id="current-task" class="text-blue-400 font-medium">Ready to begin</p>
+            </div>
+            <div class="text-right">
+                <span id="step-counter" class="text-sm font-bold font-mono text-slate-400 bg-slate-800 px-3 py-1 rounded-full border border-slate-700">Q 0/10</span>
+            </div>
+        </header>
 
-    <!-- Main Video Container -->
-    <div class="max-w-6xl w-full bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col md:flex-row min-h-[650px]">
-        
-        <!-- Screen Area -->
-        <div class="flex-1 bg-slate-900 p-8 relative flex flex-col justify-center text-white min-h-[450px]">
-            <div id="slide-content" class="fade-in h-full flex flex-col justify-center">
-                <!-- Content injected here -->
+        <!-- Whiteboard Container -->
+        <div id="whiteboard" class="whiteboard border-8 border-slate-800">
+            <div id="content-area" class="h-full w-full p-10 relative">
+                <!-- Chalk lines appear here -->
             </div>
             
-            <!-- Controls Overlay -->
-            <div class="absolute bottom-0 left-0 right-0 bg-black/60 p-4 flex justify-between items-center backdrop-blur-sm">
-                <div class="flex gap-4 items-center">
-                    <button id="prevBtn" class="p-2 hover:bg-white/20 rounded-full transition" title="Previous Question">
-                        <svg width="24" height="24" fill="white" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-                    </button>
-                    <span id="slideCounter" class="text-sm font-mono tracking-widest bg-white/10 px-3 py-1 rounded">1 / 10</span>
-                    <button id="nextBtn" class="p-2 hover:bg-white/20 rounded-full transition" title="Next Question">
-                        <svg width="24" height="24" fill="white" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-                    </button>
+            <!-- Overlay -->
+            <div id="overlay" class="absolute inset-0 bg-slate-900/95 flex flex-col items-center justify-center z-20 transition-opacity duration-700">
+                <div class="text-center mb-8">
+                    <h2 class="text-4xl font-black mb-3 text-white">Full Video Lesson</h2>
+                    <p class="text-slate-400 text-lg">All 10 Questions from Chapter 10</p>
                 </div>
-                
-                <div class="flex gap-3">
-                    <button id="resetBtn" class="px-4 py-2 text-sm border border-white/30 rounded-full hover:bg-white/10 transition">Reset</button>
-                    <button id="playBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-2 rounded-full font-bold transition flex items-center gap-2 shadow-lg active:scale-95">
-                        <span id="playIcon">▶</span> <span id="btnText">Play Lesson</span>
-                    </button>
-                </div>
+                <button id="start-btn" class="bg-blue-600 hover:bg-blue-500 text-white px-12 py-6 rounded-2xl font-black text-2xl shadow-2xl transform transition hover:scale-105 active:scale-95 flex items-center gap-3">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20"><path d="M4.5 3a.5.5 0 00-.5.5v13a.5.5 0 00.8.4l10-6.5a.5.5 0 000-.8l-10-6.5a.5.5 0 00-.3-.1z"/></svg>
+                    WATCH TUTORIAL
+                </button>
             </div>
         </div>
 
-        <!-- Sidebar Explanation -->
-        <div class="w-full md:w-96 bg-slate-50 p-6 border-l border-slate-200 flex flex-col">
-            <h2 class="font-bold text-slate-700 mb-4 border-b pb-2 uppercase text-xs tracking-widest flex justify-between items-center">
-                Logic Breakdown
-                <span id="status-badge" class="px-2 py-0.5 bg-slate-200 text-[10px] rounded text-slate-500 italic">Idle</span>
-            </h2>
-            <div id="step-list" class="space-y-4 text-sm text-slate-600 flex-1 overflow-y-auto pr-2">
-                <!-- Steps injected here -->
+        <!-- Professional Player Controls -->
+        <div class="bg-slate-800/50 backdrop-blur-md p-6 rounded-3xl border border-slate-700 shadow-2xl space-y-5">
+            <div class="progress-bar">
+                <div id="progress-fill" class="progress-fill"></div>
             </div>
-            <div class="mt-4 p-4 bg-blue-50 rounded-lg text-xs text-blue-700 leading-relaxed border border-blue-100">
-                <strong>Student Guide:</strong> Press the play button to hear the explanation for each line.
+            
+            <div class="flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <button id="prev-btn" class="btn-control" title="Previous">
+                        <svg class="w-7 h-7 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                    </button>
+                    <button id="play-pause-btn" class="btn-control bg-blue-600/20" title="Replay">
+                        <svg id="play-icon" class="w-7 h-7 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                    </button>
+                    <button id="next-btn" class="btn-control" title="Next">
+                        <svg class="w-7 h-7 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <div class="flex flex-col items-end">
+                        <span id="speaker-status" class="text-[10px] font-black uppercase tracking-widest text-slate-500">Audio Ready</span>
+                        <div class="h-1 w-12 bg-slate-700 rounded-full overflow-hidden mt-1">
+                            <div id="audio-wave" class="h-full bg-blue-500 w-0 transition-all duration-300"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        const questions = [
+        const apiKey = "";
+        const contentArea = document.getElementById('content-area');
+        const taskText = document.getElementById('current-task');
+        const counterText = document.getElementById('step-counter');
+        const startBtn = document.getElementById('start-btn');
+        const overlay = document.getElementById('overlay');
+        const progressFill = document.getElementById('progress-fill');
+        const speakerStatus = document.getElementById('speaker-status');
+        const audioWave = document.getElementById('audio-wave');
+
+        let currentQuestionIndex = 0;
+        let activeNarration = null;
+
+        const tutorialData = [
             {
-                q: "1. Find the least positive integer which satisfies x - 6 ≤ 2 - 3x.",
-                steps: [
-                    { text: "Original: x - 6 ≤ 2 - 3x", audio: "Let's find the least positive integer. We start with x minus 6 is less than or equal to 2 minus 3 x." },
-                    { text: "Combine x: 4x ≤ 8", audio: "Add 3x and 6 to both sides to get 4x is less than or equal to 8." },
-                    { text: "Solve: x ≤ 2", audio: "Divide by 4. So x is 2 or less." },
-                    { text: "Positive Integers: {1, 2}", audio: "The positive integers fitting this are 1 and 2." },
-                    { text: "Least Value: 1", audio: "The smallest of these is 1." }
-                ],
-                answer: "C"
+                title: "Question 1: Least Positive Integer",
+                script: "To solve x minus 6 is less than or equal to 2 minus 3x, we group the x terms. Add 3x to both sides to get 4x, and add 6 to get 8. Dividing by 4 gives x is less than or equal to 2. The positive integers are 1 and 2, so the least one is 1.",
+                lines: ["Solve: x − 6 ≤ 2 − 3x", "4x ≤ 8", "x ≤ 2", "Positive integers: 1, 2", "Least positive integer: 1", "Answer: C"]
             },
             {
-                q: "2. If a/b > 1, which must be true? (I) a > b (II) a² > b² (III) ab > 0",
-                steps: [
-                    { text: "Analyze I: If b < 0, then a < b", audio: "If b is negative, like negative 2, then a must be negative 4 for the ratio to be 2. In that case, negative 4 is not greater than negative 2. So I is not always true." },
-                    { text: "Analyze II: (a/b)² > 1² → a²/b² > 1", audio: "Since the absolute value of the ratio is greater than 1, squaring both sides confirms a squared is always greater than b squared." },
-                    { text: "Analyze III: a/b > 1 → ab > 0", audio: "For the ratio to be positive, both numbers must have the same sign. Therefore their product is always positive." }
-                ],
-                answer: "D"
+                title: "Question 2: Ratio Logic",
+                script: "If a over b is greater than 1, check the statements. One: a is greater than b is false if b is negative. Two: a squared is greater than b squared is true. Three: a times b is positive is true because they must have the same sign. So the answer is 2 and 3 only.",
+                lines: ["Given: a/b > 1", "I: a > b (False if b < 0)", "II: (a/b)² > 1² → a² > b² (True)", "III: ab > 0 (True: same signs)", "Answer: II and III only (D)"]
             },
             {
-                q: "3. Solve x + 9 < 8 or 3(5 + x) < -12.",
-                steps: [
-                    { text: "Part A: x < -1", audio: "Subtract 9 from the first inequality to get x is less than negative 1." },
-                    { text: "Part B: 5 + x < -4 → x < -9", audio: "Divide the second part by 3, then subtract 5. x is less than negative 9." },
-                    { text: "Combine (OR): x < -1", audio: "Since x less than negative 1 already includes all numbers less than negative 9, the union of these sets is just x less than negative 1." }
-                ],
-                answer: "A"
+                title: "Question 3: OR Union",
+                script: "Solving x plus 9 is less than 8 gives x is less than negative 1. Solving 3 times 5 plus x is less than negative 12 gives x is less than negative 9. Since it is an OR statement, we combine the ranges. x less than negative 1 covers everything.",
+                lines: ["x + 9 < 8  OR  3(5 + x) < −12", "x < −1  OR  x < −9", "Union: x < −1", "Answer: A"]
             },
             {
-                q: "4. Solve (x - 2)/3 - (x - 3)/4 ≥ 1.",
-                steps: [
-                    { text: "Multiply by 12: 4(x - 2) - 3(x - 3) ≥ 12", audio: "Multiply the entire inequality by 12 to remove the denominators." },
-                    { text: "Expand: 4x - 8 - 3x + 9 ≥ 12", audio: "Expand the brackets, being careful with the negative signs." },
-                    { text: "Simplify: x + 1 ≥ 12", audio: "4x minus 3x is x, and negative 8 plus 9 is 1." },
-                    { text: "Result: x ≥ 11", audio: "Subtract 1 to find x is 11 or greater." }
-                ],
-                answer: "D"
+                title: "Question 4: Fractional Overlap",
+                script: "First, 4 times 5 minus x is greater than 8 gives x less than 3. Second, 8 is greater than or equal to 1 plus 3x over 2 gives x less than or equal to 5. The overlap is x less than 3. The integers are 1 and 2.",
+                lines: ["4(5−x) > 8 AND 8 ≥ (1+3x)/2", "5−x > 2 → x < 3", "16 ≥ 1+3x → x ≤ 5", "Overlap: x < 3", "Pos. Ints: {1, 2} → Count: 2", "Answer: A"]
             },
             {
-                q: "5. Find the greatest integer: (1-x)/2 > 3x - 10 or 2x + 7 ≤ 1.",
-                steps: [
-                    { text: "Inequality A: x < 3", audio: "Solving the first part, we find x is strictly less than 3." },
-                    { text: "Inequality B: x ≤ -3", audio: "Solving the second part, we find x is negative 3 or less." },
-                    { text: "Combine (OR): x < 3", audio: "The combined solution is x less than 3." },
-                    { text: "Greatest Integer: 2", audio: "The largest whole number strictly less than 3 is 2." }
-                ],
-                answer: "C"
+                title: "Question 5: Greatest Integer (OR)",
+                script: "Solving the first part gives x less than 3. The second gives x less than or equal to negative 3. The union is x less than 3. The greatest integer strictly less than 3 is 2.",
+                lines: ["(1−x)/2 > 3x−10 OR 2x+7 ≤ 1", "x < 3 OR x ≤ −3", "Union: x < 3", "Greatest Integer: 2", "Answer: C"]
             },
             {
-                q: "6. Solve the inequality (2x - 3)(x + 5) > 0.",
-                steps: [
-                    { text: "Roots: x = 1.5, x = -5", audio: "The expression is zero at 1 point 5 and negative 5." },
-                    { text: "Condition: Product > 0", audio: "We want the product to be positive." },
-                    { text: "Solution: x < -5 or x > 1.5", audio: "This happens when both factors are negative, or both are positive. This corresponds to the outer regions." }
-                ],
-                answer: "B"
+                title: "Question 6: Solving for k",
+                script: "The first part gives x is less than or equal to negative 5. The second part is x is less than k. If the final solution is x less than or equal to negative 5, then k must be larger than negative 5.",
+                lines: ["4(x+2) ≤ x−7 → x ≤ −5", "x < k", "Final Sol: x ≤ −5", "Requirement: k > −5", "Answer: B"]
             },
             {
-                q: "7. Solve x² - x - 2 < 0.",
-                steps: [
-                    { text: "Factor: (x + 1)(x - 2) < 0", audio: "Factor the quadratic into x plus 1 times x minus 2." },
-                    { text: "Roots: -1 and 2", audio: "The critical values are negative 1 and positive 2." },
-                    { text: "Range: -1 < x < 2", audio: "Since we want the part less than zero, we take the interval between the roots." }
-                ],
-                answer: "D"
+                title: "Question 7: Quadratic Factoring",
+                script: "Factorizing x squared minus x minus 2 gives x minus 2 times x plus 1. For the quadratic to be less than zero, x must lie between the roots negative 1 and 2.",
+                lines: ["x² − x − 2 < 0", "(x − 2)(x + 1) < 0", "Roots: −1, 2", "Region: −1 < x < 2", "Answer: D"]
             },
             {
-                q: "8. Solve the inequality represented by the graph (y = 2(x+1)² - 32 < 0).",
-                steps: [
-                    { text: "Find intercepts: 2(x + 1)² = 32", audio: "Set the equation to zero to find the x-intercepts." },
-                    { text: "Solve: (x + 1)² = 16 → x = 3, -5", audio: "The intercepts are at 3 and negative 5." },
-                    { text: "Interpret Graph: x < -5 or x > 3", audio: "Based on the provided solution graph, the shaded area is in the outer regions." }
-                ],
-                answer: "A"
+                title: "Question 8: Finding y > 0",
+                script: "The graph has a vertex at negative 1, negative 32. We find the x-intercepts by setting y to 0, which are negative 5 and 3. Since it opens upward, it is above the axis outside these values.",
+                lines: ["y = 2(x + 1)² − 32", "0 = 2(x + 1)² − 32 → (x+1)² = 16", "x+1 = ±4 → x = −5, 3", "Range: x < −5 or x > 3", "Answer: A"]
             },
             {
-                q: "9. Find max integral k such that x² - 2kx + 2 - k ≥ 0 for all x.",
-                steps: [
-                    { text: "Discriminant: Δ ≤ 0", audio: "For the quadratic to never be negative, the discriminant must be 0 or less." },
-                    { text: "Calc: 4k² - 4(2 - k) ≤ 0", audio: "This simplifies to k squared plus k minus 2 is less than or equal to zero." },
-                    { text: "Range: -2 ≤ k ≤ 1", audio: "Factorizing gives k between negative 2 and 1." },
-                    { text: "Max Integer: 1", audio: "The largest integer in this range is 1." }
-                ],
-                answer: "B"
+                title: "Question 9: Discriminant Method",
+                script: "For a quadratic to be always non-negative, its discriminant must be less than or equal to zero. This gives us k squared plus k minus 2 is less than or equal to zero. The range for k is negative 2 to 1. The greatest value is 1.",
+                lines: ["x² − 2kx + 2 − k ≥ 0", "Δ = (−2k)² − 4(2−k) ≤ 0", "k² + k − 2 ≤ 0 → (k+2)(k−1) ≤ 0", "Range: −2 ≤ k ≤ 1", "Greatest k: 1", "Answer: B"]
             },
             {
-                q: "10. Find k such that y = x² + kx + 9 and y = 2x - 7 have 2 intersections.",
-                steps: [
-                    { text: "Form Eq: x² + (k - 2)x + 16 = 0", audio: "Equate both expressions and move everything to one side." },
-                    { text: "Condition: Δ > 0", audio: "Two intersections mean the discriminant must be positive." },
-                    { text: "Solve: (k - 2)² > 64", audio: "Taking the root, k minus 2 is greater than 8 or less than negative 8." },
-                    { text: "Final: k < -6 or k > 10", audio: "This gives our final solution for k." }
-                ],
-                answer: "D"
+                title: "Question 10: Linear-Quadratic",
+                script: "Combine the equations to get x squared plus k minus 2 times x plus 16 is 0. For two intersections, the discriminant must be positive. This means k minus 2 squared is greater than 64.",
+                lines: ["x² + kx + 9 = 2x − 7", "x² + (k−2)x + 16 = 0", "Two roots → Δ > 0", "(k−2)² − 64 > 0 → (k−2)² > 64", "Result: k < −6 or k > 10", "Answer: D"]
             }
         ];
 
-        let currentQIndex = 0;
-        let isPlaying = false;
-        const apiKey = ""; 
-
-        const slideContent = document.getElementById('slide-content');
-        const stepList = document.getElementById('step-list');
-        const slideCounter = document.getElementById('slideCounter');
-        const playBtn = document.getElementById('playBtn');
-        const playIcon = document.getElementById('playIcon');
-        const btnText = document.getElementById('btnText');
-        const statusBadge = document.getElementById('status-badge');
-
-        function updateSlide() {
-            const q = questions[currentQIndex];
-            slideCounter.innerText = `${currentQIndex + 1} / ${questions.length}`;
-            statusBadge.innerText = "Idle";
-            statusBadge.className = "px-2 py-0.5 bg-slate-200 text-[10px] rounded text-slate-500 italic";
-            
-            slideContent.innerHTML = `
-                <div class="mb-6">
-                    <span class="text-blue-400 text-xs font-bold uppercase tracking-widest bg-blue-400/10 px-2 py-1 rounded">Problem ${currentQIndex + 1}</span>
-                    <p class="text-xl md:text-2xl font-medium mt-4 leading-relaxed">${q.q}</p>
-                </div>
-                <div id="solution-box" class="space-y-3"></div>
-                <div id="answer-reveal" class="mt-auto pt-4 text-2xl font-bold text-green-400 opacity-0 transition-opacity duration-1000 flex items-center gap-2">
-                    <span class="text-3xl">✓</span> Correct Answer: ${q.answer}
-                </div>
-            `;
-            
-            stepList.innerHTML = '';
-            q.steps.forEach((step, idx) => {
-                const div = document.createElement('div');
-                div.id = `step-item-${idx}`;
-                div.className = "text-slate-500 transition-all duration-500 p-2 rounded cursor-default";
-                div.innerText = step.text;
-                stepList.appendChild(div);
-            });
-            
-            isPlaying = false;
-            playIcon.innerText = "▶";
-            btnText.innerText = "Play Lesson";
-            playBtn.classList.remove('opacity-50');
-        }
-
         async function speak(text) {
+            if (activeNarration) activeNarration.pause();
+            speakerStatus.innerText = "NARRATING";
+            audioWave.style.width = "100%";
+            
             try {
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`, {
                     method: 'POST',
@@ -220,22 +162,28 @@
                         contents: [{ parts: [{ text: text }] }],
                         generationConfig: {
                             responseModalities: ["AUDIO"],
-                            speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Puck" } } }
+                            speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Kore" } } }
                         }
                     })
                 });
-                
+
                 const result = await response.json();
                 const audioData = result.candidates[0].content.parts[0].inlineData.data;
                 const audioBlob = pcmToWav(audioData, 24000);
                 const audioUrl = URL.createObjectURL(audioBlob);
                 const audio = new Audio(audioUrl);
+                activeNarration = audio;
+                
                 return new Promise(resolve => {
-                    audio.onended = resolve;
+                    audio.onended = () => {
+                        speakerStatus.innerText = "IDLE";
+                        audioWave.style.width = "0%";
+                        resolve();
+                    };
                     audio.play();
                 });
-            } catch (e) {
-                return new Promise(resolve => setTimeout(resolve, 2500));
+            } catch (err) {
+                return new Promise(resolve => setTimeout(resolve, 6000));
             }
         }
 
@@ -243,68 +191,69 @@
             const buffer = Uint8Array.from(atob(base64), c => c.charCodeAt(0)).buffer;
             const wavHeader = new ArrayBuffer(44);
             const view = new DataView(wavHeader);
-            const writeString = (offset, string) => {
-                for (let i = 0; i < string.length; i++) view.setUint8(offset + i, string.charCodeAt(i));
-            };
-            writeString(0, 'RIFF');
-            view.setUint32(4, 36 + buffer.byteLength, true);
-            writeString(8, 'WAVE');
-            writeString(12, 'fmt ');
-            view.setUint32(16, 16, true); view.setUint16(20, 1, true); view.setUint16(22, 1, true);
-            view.setUint32(24, sampleRate, true); view.setUint32(28, sampleRate * 2, true);
-            view.setUint16(32, 2, true); view.setUint16(34, 16, true);
-            writeString(36, 'data');
+            view.setUint32(0, 0x52494646, false); view.setUint32(4, 36 + buffer.byteLength, true);
+            view.setUint32(8, 0x57415645, false); view.setUint32(12, 0x666d7420, false);
+            view.setUint32(16, 16, true); view.setUint16(20, 1, true);
+            view.setUint16(22, 1, true); view.setUint32(24, sampleRate, true);
+            view.setUint32(28, sampleRate * 2, true); view.setUint16(32, 2, true);
+            view.setUint16(34, 16, true); view.setUint32(36, 0x64617461, false);
             view.setUint32(40, buffer.byteLength, true);
             return new Blob([wavHeader, buffer], { type: 'audio/wav' });
         }
 
-        async function playLesson() {
-            if (isPlaying) return;
-            isPlaying = true;
-            playBtn.classList.add('opacity-50');
-            playIcon.innerText = "⏳";
-            btnText.innerText = "Playing...";
-            statusBadge.innerText = "Recording";
-            statusBadge.className = "px-2 py-0.5 bg-blue-100 text-[10px] rounded text-blue-600 font-bold animate-pulse";
+        async function playQuestion(index) {
+            if (index < 0 || index >= tutorialData.length) return;
+            
+            currentQuestionIndex = index;
+            const q = tutorialData[index];
+            
+            contentArea.innerHTML = '';
+            taskText.innerText = q.title;
+            counterText.innerText = `Q ${index + 1}/10`;
+            progressFill.style.width = `${((index + 1) / 10) * 100}%`;
 
-            const q = questions[currentQIndex];
-            const solutionBox = document.getElementById('solution-box');
-            solutionBox.innerHTML = '';
+            const narrationPromise = speak(q.script);
 
-            for (let i = 0; i < q.steps.length; i++) {
-                if (!isPlaying) break;
-                const stepItems = stepList.querySelectorAll('div');
-                stepItems.forEach(item => item.classList.remove('active-step', 'text-blue-600', 'font-bold'));
-                const currentItem = document.getElementById(`step-item-${i}`);
-                currentItem.classList.add('active-step', 'text-blue-600', 'font-bold');
-
-                const stepDiv = document.createElement('div');
-                stepDiv.className = "fade-in text-lg font-mono bg-white/5 p-3 rounded border border-white/10 shadow-sm";
-                stepDiv.innerHTML = `<span class="text-blue-400 mr-2 font-bold">Step ${i+1}:</span> ${q.steps[i].text}`;
-                solutionBox.appendChild(stepDiv);
-
-                await speak(q.steps[i].audio);
+            for (let i = 0; i < q.lines.length; i++) {
+                const line = document.createElement('div');
+                line.className = 'chalk-line';
+                line.style.top = `${60 + (i * 70)}px`;
+                
+                // Bold formatting for operators (Ans highlight logic removed)
+                let html = q.lines[i]
+                    .replace(/(≤|≥|>|<|−|→|=)/g, '<span class="highlight">$1</span>');
+                
+                line.innerHTML = html;
+                contentArea.appendChild(line);
+                
+                await new Promise(r => setTimeout(r, 800));
+                line.classList.add('visible');
+                await new Promise(r => setTimeout(r, 1200));
             }
 
-            if (isPlaying) {
-                document.getElementById('answer-reveal').style.opacity = '1';
-                await speak(`The final answer is ${q.answer}.`);
-            }
-
-            isPlaying = false;
-            playBtn.classList.remove('opacity-50');
-            playIcon.innerText = "▶";
-            btnText.innerText = "Replay Lesson";
-            statusBadge.innerText = "Done";
-            statusBadge.className = "px-2 py-0.5 bg-green-100 text-[10px] rounded text-green-600 font-bold";
+            await narrationPromise;
         }
 
-        document.getElementById('nextBtn').onclick = () => { if(!isPlaying) { currentQIndex = (currentQIndex + 1) % questions.length; updateSlide(); }};
-        document.getElementById('prevBtn').onclick = () => { if(!isPlaying) { currentQIndex = (currentQIndex - 1 + questions.length) % questions.length; updateSlide(); }};
-        document.getElementById('resetBtn').onclick = () => { if(!isPlaying) updateSlide(); };
-        playBtn.onclick = playLesson;
+        startBtn.addEventListener('click', () => {
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                playQuestion(0);
+            }, 700);
+        });
 
-        window.onload = updateSlide;
+        document.getElementById('next-btn').addEventListener('click', () => {
+            if (currentQuestionIndex < 9) playQuestion(currentQuestionIndex + 1);
+        });
+
+        document.getElementById('prev-btn').addEventListener('click', () => {
+            if (currentQuestionIndex > 0) playQuestion(currentQuestionIndex - 1);
+        });
+
+        document.getElementById('play-pause-btn').addEventListener('click', () => {
+            playQuestion(currentQuestionIndex);
+        });
+
     </script>
 </body>
 </html>
