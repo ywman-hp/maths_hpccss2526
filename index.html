@@ -9,8 +9,8 @@
         @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;600;700&display=swap');
         
         body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: white; overflow: hidden; }
-        .whiteboard { background: #ffffff; color: #1e293b; border-radius: 16px; height: 540px; position: relative; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
-        .chalk-line { font-family: 'Fira Code', monospace; font-size: 1.25rem; position: absolute; opacity: 0; transform: translateX(-10px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); width: 90%; border-left: 4px solid transparent; padding-left: 15px; }
+        .whiteboard { background: #ffffff; color: #1e293b; border-radius: 16px; height: 520px; position: relative; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+        .chalk-line { font-family: 'Fira Code', monospace; font-size: 1.15rem; position: absolute; opacity: 0; transform: translateX(-10px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); width: 90%; border-left: 4px solid transparent; padding-left: 15px; }
         .chalk-line.visible { opacity: 1; transform: translateX(0); border-left-color: #3b82f6; }
         .highlight { color: #2563eb; font-weight: 700; }
         .progress-bar { height: 8px; background: #334155; width: 100%; border-radius: 4px; overflow: hidden; }
@@ -18,22 +18,19 @@
         
         .btn-control { @apply p-3 hover:bg-slate-700 rounded-xl transition-all active:scale-90 disabled:opacity-20; }
         
-        /* Audio Pulse Animation */
-        @keyframes pulse {
-            0% { opacity: 0.4; }
-            50% { opacity: 1; }
-            100% { opacity: 0.4; }
-        }
+        @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
         .audio-active { animation: pulse 1.5s infinite; }
+        
+        #debug-log { font-family: 'Fira Code', monospace; font-size: 10px; color: #94a3b8; max-height: 40px; overflow-y: auto; }
     </style>
 </head>
 <body class="p-4 md:p-8 flex flex-col items-center min-h-screen">
 
-    <div class="max-w-5xl w-full space-y-6">
+    <div class="max-w-5xl w-full space-y-4">
         <header class="flex justify-between items-end">
             <div>
                 <h1 class="text-3xl font-extrabold text-white tracking-tight">Chapter 10 Tutorial</h1>
-                <p id="current-task" class="text-blue-400 font-medium">Click Start to enable Audio</p>
+                <p id="current-task" class="text-blue-400 font-medium">Initializing...</p>
             </div>
             <div class="text-right">
                 <span id="step-counter" class="text-sm font-bold font-mono text-slate-400 bg-slate-800 px-3 py-1 rounded-full border border-slate-700">Q 0/10</span>
@@ -41,23 +38,21 @@
         </header>
 
         <div id="whiteboard" class="whiteboard border-8 border-slate-800">
-            <div id="content-area" class="h-full w-full p-10 relative">
-                <!-- Chalk lines appear here -->
-            </div>
+            <div id="content-area" class="h-full w-full p-10 relative"></div>
             
             <div id="overlay" class="absolute inset-0 bg-slate-900/95 flex flex-col items-center justify-center z-20 transition-opacity duration-700">
                 <div class="text-center mb-8">
-                    <h2 class="text-4xl font-black mb-3 text-white">Full Video Lesson</h2>
-                    <p class="text-slate-400 text-lg">Includes Sound & Explanations</p>
+                    <h2 class="text-4xl font-black mb-3 text-white">Inequalities Masterclass</h2>
+                    <p class="text-slate-400 text-lg">Full Audio Walkthrough (10 Questions)</p>
                 </div>
                 <button id="start-btn" class="bg-blue-600 hover:bg-blue-500 text-white px-12 py-6 rounded-2xl font-black text-2xl shadow-2xl transform transition hover:scale-105 active:scale-95 flex items-center gap-3">
                     <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20"><path d="M4.5 3a.5.5 0 00-.5.5v13a.5.5 0 00.8.4l10-6.5a.5.5 0 000-.8l-10-6.5a.5.5 0 00-.3-.1z"/></svg>
-                    START LESSON
+                    START VIDEO
                 </button>
             </div>
         </div>
 
-        <div class="bg-slate-800/50 backdrop-blur-md p-6 rounded-3xl border border-slate-700 shadow-2xl space-y-5">
+        <div class="bg-slate-800/50 backdrop-blur-md p-6 rounded-3xl border border-slate-700 shadow-2xl space-y-4">
             <div class="progress-bar">
                 <div id="progress-fill" class="progress-fill"></div>
             </div>
@@ -68,27 +63,25 @@
                         <svg class="w-7 h-7 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                     </button>
                     <button id="play-pause-btn" class="btn-control bg-blue-600/20" title="Replay">
-                        <svg id="play-icon" class="w-7 h-7 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                        <svg class="w-7 h-7 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                     </button>
                     <button id="next-btn" class="btn-control" title="Next">
                         <svg class="w-7 h-7 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </button>
                 </div>
                 
-                <div class="flex items-center gap-4">
-                    <div class="flex flex-col items-end">
-                        <span id="speaker-status" class="text-[10px] font-black uppercase tracking-widest text-slate-500">Audio Muted</span>
-                        <div class="h-1 w-12 bg-slate-700 rounded-full overflow-hidden mt-1">
-                            <div id="audio-wave" class="h-full bg-blue-500 w-0 transition-all duration-300"></div>
-                        </div>
-                    </div>
+                <div class="flex flex-col items-end">
+                    <span id="speaker-status" class="text-[10px] font-black uppercase tracking-widest text-slate-500">System Ready</span>
+                    <div id="debug-log"></div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        const apiKey = "";
+        // Key management for GitHub vs Local
+        const apiKey = typeof __initial_auth_token !== 'undefined' ? "" : ""; 
+        
         const contentArea = document.getElementById('content-area');
         const taskText = document.getElementById('current-task');
         const counterText = document.getElementById('step-counter');
@@ -96,16 +89,22 @@
         const overlay = document.getElementById('overlay');
         const progressFill = document.getElementById('progress-fill');
         const speakerStatus = document.getElementById('speaker-status');
-        const audioWave = document.getElementById('audio-wave');
+        const debugLog = document.getElementById('debug-log');
 
         let currentQuestionIndex = 0;
         let activeNarration = null;
-        let audioUnlocked = false;
+
+        function log(msg) {
+            console.log(msg);
+            const entry = document.createElement('div');
+            entry.textContent = `> ${msg}`;
+            debugLog.prepend(entry);
+        }
 
         const tutorialData = [
             {
                 title: "Question 1: Least Positive Integer",
-                script: "To solve x minus 6 is less than or equal to 2 minus 3x, we group the x terms. Add 3x to both sides to get 4x, and add 6 to get 8. Dividing by 4 gives x is less than or equal to 2. Since we need positive integers, the options are 1 and 2. The least one is 1.",
+                script: "To solve x minus 6 is less than or equal to 2 minus 3x, we group the x terms. Add 3x to both sides to get 4x, and add 6 to get 8. Dividing by 4 gives x is less than or equal to 2. The positive integers are 1 and 2. The least one is 1.",
                 lines: ["Solve: x − 6 ≤ 2 − 3x", "4x ≤ 8", "x ≤ 2", "Positive integers: 1, 2", "Least positive integer: 1", "Answer: C"]
             },
             {
@@ -115,53 +114,50 @@
             },
             {
                 title: "Question 3: OR Union",
-                script: "Solving x plus 9 is less than 8 gives x is less than negative 1. Solving 3 times 5 plus x is less than negative 12 gives x is less than negative 9. Because this is an OR statement, the final solution is the union of both, which is x less than negative 1.",
+                script: "Solving x plus 9 is less than 8 gives x is less than negative 1. Solving 3 times 5 plus x is less than negative 12 gives x is less than negative 9. Because this is an OR statement, the final solution is the union, which is x less than negative 1.",
                 lines: ["x + 9 < 8  OR  3(5 + x) < −12", "x < −1  OR  x < −9", "Union: x < −1", "Answer: A"]
             },
             {
                 title: "Question 4: Fractional Overlap",
-                script: "The first inequality simplifies to x less than 3. The second simplifies to x less than or equal to 5. Since both must be true, the overlap is x less than 3. The positive integers in this range are 1 and 2, making the count 2.",
+                script: "The first inequality simplifies to x less than 3. The second simplifies to x less than or equal to 5. Since both must be true, the overlap is x less than 3. The positive integers are 1 and 2, making the count 2.",
                 lines: ["4(5−x) > 8 AND 8 ≥ (1+3x)/2", "5−x > 2 → x < 3", "16 ≥ 1+3x → x ≤ 5", "Overlap: x < 3", "Pos. Ints: {1, 2} → Count: 2", "Answer: A"]
             },
             {
                 title: "Question 5: Greatest Integer (OR)",
-                script: "Solving the first inequality gives x less than 3. The second gives x less than or equal to negative 3. The union of these ranges is x less than 3. The greatest integer satisfying this is 2.",
+                script: "Solving the first inequality gives x less than 3. The second gives x less than or equal to negative 3. The union is x less than 3. The greatest integer strictly less than 3 is 2.",
                 lines: ["(1−x)/2 > 3x−10 OR 2x+7 ≤ 1", "x < 3 OR x ≤ −3", "Union: x < 3", "Greatest Integer: 2", "Answer: C"]
             },
             {
                 title: "Question 6: Solving for k",
-                script: "From the first inequality, we have x less than or equal to negative 5. The combined solution is given as x less than or equal to negative 5. For the second inequality, x less than k, not to restrict this range, k must be strictly greater than negative 5.",
+                script: "From the first inequality, we have x less than or equal to negative 5. The combined solution is x less than or equal to negative 5. For the second inequality, x less than k, k must be greater than negative 5 to not restrict the first range.",
                 lines: ["4(x+2) ≤ x−7 → x ≤ −5", "x < k", "Final Sol: x ≤ −5", "Requirement: k > −5", "Answer: B"]
             },
             {
                 title: "Question 7: Quadratic Factoring",
-                script: "We factorize the quadratic expression into x minus 2 and x plus 1. For the product to be less than zero, the value of x must fall strictly between the two roots, negative 1 and 2.",
+                script: "We factorize the quadratic into x minus 2 and x plus 1. For the product to be less than zero, the value of x must fall strictly between negative 1 and 2.",
                 lines: ["x² − x − 2 < 0", "(x − 2)(x + 1) < 0", "Roots: −1, 2", "Region: −1 < x < 2", "Answer: D"]
             },
             {
                 title: "Question 8: Finding y > 0",
-                script: "By substituting the point zero, negative 30, we find the constant a is 2. Setting y to zero gives intercepts at negative 5 and 3. Since the parabola opens upward, y is positive when x is less than negative 5 or greater than 3.",
+                script: "Substituting the point zero, negative 30 into the equation shows the coefficient a is 2. The intercepts are negative 5 and 3. Since it opens upward, y is positive when x is less than negative 5 or greater than 3.",
                 lines: ["y = 2(x + 1)² − 32", "0 = 2(x + 1)² − 32 → (x+1)² = 16", "x+1 = ±4 → x = −5, 3", "Range: x < −5 or x > 3", "Answer: A"]
             },
             {
                 title: "Question 9: Discriminant Method",
-                script: "For the quadratic to be non-negative for all real x, the discriminant must be less than or equal to zero. This leads to the inequality k squared plus k minus 2 is less than or equal to zero. The range for k is negative 2 to 1, so the greatest integer is 1.",
+                script: "For the quadratic to be non-negative for all x, the discriminant must be less than or equal to zero. This leads to k squared plus k minus 2 is less than or equal to zero. The range for k is negative 2 to 1, so the greatest integer is 1.",
                 lines: ["x² − 2kx + 2 − k ≥ 0", "Δ = (−2k)² − 4(2−k) ≤ 0", "k² + k − 2 ≤ 0 → (k+2)(k−1) ≤ 0", "Range: −2 ≤ k ≤ 1", "Greatest k: 1", "Answer: B"]
             },
             {
                 title: "Question 10: Linear-Quadratic",
-                script: "Equating the two functions gives a quadratic equation. For two distinct intersections, the discriminant must be positive. Solving for k, we find that k minus 2 squared must be greater than 64, meaning k is less than negative 6 or greater than 10.",
+                script: "Equating both functions gives a combined quadratic. For two intersections, the discriminant must be positive. This means k minus 2 squared is greater than 64, leading to k less than negative 6 or greater than 10.",
                 lines: ["x² + kx + 9 = 2x − 7", "x² + (k−2)x + 16 = 0", "Two roots → Δ > 0", "(k−2)² − 64 > 0", "Result: k < −6 or k > 10", "Answer: D"]
             }
         ];
 
-        async function speak(text) {
-            if (activeNarration) {
-                activeNarration.pause();
-                activeNarration = null;
-            }
+        async function speak(text, retries = 3) {
+            if (activeNarration) { activeNarration.pause(); activeNarration = null; }
             
-            speakerStatus.innerText = "LOADING AUDIO...";
+            speakerStatus.innerText = "GENERATING AUDIO...";
             speakerStatus.classList.add('audio-active');
             
             try {
@@ -177,38 +173,40 @@
                     })
                 });
 
+                if (!response.ok) throw new Error(`API Error: ${response.status}`);
+
                 const result = await response.json();
-                const audioData = result.candidates[0].content.parts[0].inlineData.data;
+                const audioData = result.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+                
+                if (!audioData) throw new Error("No audio data returned");
+
                 const audioBlob = pcmToWav(audioData, 24000);
                 const audioUrl = URL.createObjectURL(audioBlob);
                 const audio = new Audio(audioUrl);
-                
                 activeNarration = audio;
                 
                 return new Promise(resolve => {
-                    audio.onplay = () => {
-                        speakerStatus.innerText = "NARRATING";
-                        audioWave.style.width = "100%";
-                    };
-                    audio.onended = () => {
-                        speakerStatus.innerText = "IDLE";
+                    audio.onplay = () => { speakerStatus.innerText = "PLAYING"; };
+                    audio.onended = () => { 
+                        speakerStatus.innerText = "IDLE"; 
                         speakerStatus.classList.remove('audio-active');
-                        audioWave.style.width = "0%";
-                        resolve();
+                        resolve(); 
                     };
-                    audio.onerror = () => {
-                        console.error("Audio playback failed");
-                        resolve();
-                    };
+                    audio.onerror = (e) => { log("Audio playback error"); resolve(); };
                     audio.play().catch(e => {
-                        console.warn("Autoplay blocked, waiting for interaction");
-                        speakerStatus.innerText = "CLICK TO HEAR AUDIO";
+                        log("Playback blocked by browser");
                         resolve();
                     });
                 });
             } catch (err) {
+                log(`Attempt failed: ${err.message}`);
+                if (retries > 0) {
+                    log("Retrying in 2s...");
+                    await new Promise(r => setTimeout(r, 2000));
+                    return speak(text, retries - 1);
+                }
                 speakerStatus.innerText = "AUDIO ERROR";
-                return new Promise(resolve => setTimeout(resolve, 5000));
+                return new Promise(r => setTimeout(r, 5000));
             }
         }
 
@@ -228,7 +226,6 @@
 
         async function playQuestion(index) {
             if (index < 0 || index >= tutorialData.length) return;
-            
             currentQuestionIndex = index;
             const q = tutorialData[index];
             
@@ -242,48 +239,27 @@
             for (let i = 0; i < q.lines.length; i++) {
                 const line = document.createElement('div');
                 line.className = 'chalk-line';
-                line.style.top = `${60 + (i * 70)}px`;
-                
-                let html = q.lines[i]
-                    .replace(/(≤|≥|>|<|−|→|=)/g, '<span class="highlight">$1</span>');
-                
-                line.innerHTML = html;
+                line.style.top = `${60 + (i * 65)}px`;
+                line.innerHTML = q.lines[i].replace(/(≤|≥|>|<|−|→|=)/g, '<span class="highlight">$1</span>');
                 contentArea.appendChild(line);
-                
                 await new Promise(r => setTimeout(r, 800));
                 line.classList.add('visible');
-                await new Promise(r => setTimeout(r, 1200));
+                await new Promise(r => setTimeout(r, 1500));
             }
-
             await narrationPromise;
         }
 
-        // The critical step: Audio activation on user click
         startBtn.addEventListener('click', () => {
-            // Unlock audio context
-            const dummyAudio = new Audio();
-            dummyAudio.play().catch(() => {}); 
-            audioUnlocked = true;
-
+            log("Session started - audio unlocked");
             overlay.style.opacity = '0';
-            setTimeout(() => {
-                overlay.style.display = 'none';
-                playQuestion(0);
-            }, 700);
+            setTimeout(() => { overlay.style.display = 'none'; playQuestion(0); }, 700);
         });
 
-        document.getElementById('next-btn').addEventListener('click', () => {
-            if (currentQuestionIndex < 9) playQuestion(currentQuestionIndex + 1);
-        });
+        document.getElementById('next-btn').addEventListener('click', () => { if (currentQuestionIndex < 9) playQuestion(currentQuestionIndex + 1); });
+        document.getElementById('prev-btn').addEventListener('click', () => { if (currentQuestionIndex > 0) playQuestion(currentQuestionIndex - 1); });
+        document.getElementById('play-pause-btn').addEventListener('click', () => { playQuestion(currentQuestionIndex); });
 
-        document.getElementById('prev-btn').addEventListener('click', () => {
-            if (currentQuestionIndex > 0) playQuestion(currentQuestionIndex - 1);
-        });
-
-        document.getElementById('play-pause-btn').addEventListener('click', () => {
-            playQuestion(currentQuestionIndex);
-        });
-
+        window.onload = () => { taskText.innerText = "Ready to start"; };
     </script>
 </body>
 </html>
