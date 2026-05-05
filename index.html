@@ -3,208 +3,263 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DSE 2025 Math Paper 1 Q18 Explainer</title>
+    <title>Chapter 10: Inequalities Masterclass</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        .step-content { display: none; }
-        .step-content.active { display: block; animation: fadeIn 0.5s ease-out; }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;600;700&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: white; overflow: hidden; }
+        .whiteboard { background: #ffffff; color: #1e293b; border-radius: 16px; height: 500px; position: relative; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+        .chalk-line { font-family: 'Fira Code', monospace; font-size: 1.1rem; position: absolute; opacity: 0; transform: translateX(-10px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); width: 90%; border-left: 4px solid transparent; padding-left: 15px; }
+        .chalk-line.visible { opacity: 1; transform: translateX(0); border-left-color: #3b82f6; }
+        .highlight { color: #2563eb; font-weight: 700; }
+        .progress-bar { height: 8px; background: #334155; width: 100%; border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #3b82f6, #60a5fa); width: 0%; transition: width 0.4s ease; }
+        
+        .btn-control { @apply p-3 hover:bg-slate-700 rounded-xl transition-all active:scale-90 disabled:opacity-20; }
+        
+        @keyframes pulse { 0% { opacity: 0.4; } 50% { opacity: 1; } 100% { opacity: 0.4; } }
+        .audio-active { animation: pulse 1.5s infinite; }
     </style>
 </head>
-<body class="bg-slate-100 min-h-screen flex items-center justify-center p-4 font-sans">
+<body class="p-4 md:p-8 flex flex-col items-center min-h-screen">
 
-    <div class="max-w-2xl w-full bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col">
-        <!-- Header -->
-        <div class="bg-blue-700 p-6 text-white">
-            <h1 class="text-2xl font-bold flex items-center gap-2">
-                <i data-lucide="play-circle"></i> 2025 DSE Math Q18 (Official Solution)
-            </h1>
-            <p class="text-blue-100 opacity-90 text-sm">Interactive Step-by-Step Breakdown</p>
+    <div class="max-w-5xl w-full space-y-4">
+        <header class="flex justify-between items-end">
+            <div>
+                <h1 class="text-3xl font-extrabold text-white tracking-tight">Chapter 10 Tutorial</h1>
+                <p id="current-task" class="text-blue-400 font-medium text-sm">Please click Start to begin</p>
+            </div>
+            <div class="text-right">
+                <span id="step-counter" class="text-sm font-bold font-mono text-slate-400 bg-slate-800 px-3 py-1 rounded-full border border-slate-700">Q 0/10</span>
+            </div>
+        </header>
+
+        <div id="whiteboard" class="whiteboard border-8 border-slate-800">
+            <div id="content-area" class="h-full w-full p-8 relative"></div>
+            
+            <div id="overlay" class="absolute inset-0 bg-slate-900/95 flex flex-col items-center justify-center z-20 transition-opacity duration-700">
+                <div class="text-center mb-8">
+                    <h2 class="text-4xl font-black mb-3 text-white">Inequalities Video Lesson</h2>
+                    <p class="text-slate-400 text-lg">Click below to enable audio and start.</p>
+                </div>
+                <button id="start-btn" class="bg-blue-600 hover:bg-blue-500 text-white px-12 py-6 rounded-2xl font-black text-2xl shadow-2xl transform transition hover:scale-105 active:scale-95 flex items-center gap-3">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20"><path d="M4.5 3a.5.5 0 00-.5.5v13a.5.5 0 00.8.4l10-6.5a.5.5 0 000-.8l-10-6.5a.5.5 0 00-.3-.1z"/></svg>
+                    START LESSON
+                </button>
+            </div>
         </div>
 
-        <!-- Main Content Area -->
-        <div class="flex-grow p-8 min-h-[460px]">
-            <div id="step-indicator" class="flex items-center gap-2 mb-4 text-blue-600 font-semibold uppercase tracking-wider text-sm">
-                <i data-lucide="info" class="w-4 h-4"></i>
-                <span>Step <span id="current-step-num">1</span> of 5: <span id="step-title">Introduction</span></span>
+        <div class="bg-slate-800/50 backdrop-blur-md p-6 rounded-3xl border border-slate-700 shadow-2xl space-y-4">
+            <div class="progress-bar">
+                <div id="progress-fill" class="progress-fill"></div>
             </div>
             
-            <!-- Step 0 -->
-            <div id="step-0" class="step-content active space-y-4">
-                <p class="text-lg">Welcome to the corrected breakdown of <span class="font-bold text-blue-600">2025 DSE Math Q18</span>, following the official marking scheme.</p>
-                <div class="bg-gray-50 p-4 rounded-lg border-l-4 border-blue-500">
-                    <p class="italic text-gray-700">"Let g(x) = 3x² - 6kx + 24x + 3k² - 24k + 55, where k > 0."</p>
+            <div class="flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <button id="prev-btn" class="btn-control" title="Previous">
+                        <svg class="w-7 h-7 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                    </button>
+                    <button id="play-pause-btn" class="btn-control bg-blue-600/20" title="Replay current question">
+                        <svg class="w-7 h-7 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                    </button>
+                    <button id="next-btn" class="btn-control" title="Next">
+                        <svg class="w-7 h-7 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </button>
                 </div>
-                <p>Key concepts we will use:</p>
-                <ul class="list-disc ml-6 space-y-2 text-gray-700">
-                    <li><strong>Vertex R:</strong> Found via completing the square.</li>
-                    <li><strong>Vertex S:</strong> Found via translation (Right 6, Down 10).</li>
-                    <li><strong>Point T:</strong> Origin O(0,0) is the orthocentre.</li>
-                    <li><strong>Final Goal:</strong> Find <i>k</i> using concyclic properties.</li>
-                </ul>
-            </div>
-
-            <!-- Step 1 -->
-            <div id="step-1" class="step-content space-y-4">
-                <h3 class="font-bold text-lg text-blue-800">Part (a): Coordinates of R</h3>
-                <p>Completing the square for g(x):</p>
-                <div class="bg-slate-900 text-blue-100 p-4 rounded-lg font-mono text-sm leading-relaxed shadow-inner">
-                    <p>= 3(x² - (2k - 8)x) + 3k² - 24k + 55</p>
-                    <p>= 3[x² - 2(k - 4)x + (k - 4)² - (k - 4)²] + ...</p>
-                    <p>= 3(x - (k - 4))² - 3(k - 4)² + 3k² - 24k + 55</p>
-                    <p>= 3(x - k + 4)² + 7</p>
-                </div>
-                <div class="bg-blue-50 p-4 rounded-lg border border-blue-200 text-center">
-                    <p class="text-blue-900">Coordinates of vertex <strong>R = (k - 4, 7)</strong></p>
+                
+                <div class="flex flex-col items-end">
+                    <span id="speaker-status" class="text-[10px] font-black uppercase tracking-widest text-slate-500">Audio Initializing...</span>
+                    <div class="text-[9px] text-slate-400 mt-1">Requires active session key</div>
                 </div>
             </div>
-
-            <!-- Step 2 -->
-            <div id="step-2" class="step-content space-y-4 text-sm">
-                <h3 class="font-bold text-lg text-blue-800">Part (b)(i): Coordinates of T</h3>
-                <p>1. <strong>S = (k + 2, -3)</strong> (R translated 6 right, 10 down).</p>
-                <p>2. <strong>OT ⊥ RS</strong>: Slope RS = -5/3. Thus, Slope OT = 3/5. Let <strong>T = (5t, 3t)</strong>.</p>
-                <p>3. <strong>RT ⊥ OS</strong>: Slope OS = -3 / (k + 2).</p>
-                <div class="bg-gray-50 p-4 rounded-lg border font-mono">
-                    <p class="mb-2 text-xs text-gray-500">// Orthocentre perpendicularity eq:</p>
-                    <p>((3t - 7) / (5t - (k - 4))) * (-3 / (k + 2)) = -1</p>
-                    <p class="mt-2 text-blue-700 font-bold">t = (k² - 2k - 29) / (5k + 1)</p>
-                </div>
-                <div class="bg-blue-50 p-3 rounded-lg border border-blue-200 text-center">
-                    <p class="font-bold">T = ( 5t, 3t )</p>
-                </div>
-            </div>
-
-            <!-- Step 3 -->
-            <div id="step-3" class="step-content space-y-4">
-                <h3 class="font-bold text-lg text-blue-800">Part (b)(ii): Geometric Insight</h3>
-                <p>Given S, T, U, V are concyclic and <strong>TV ⊥ RS</strong> (∠SVT = 90°).</p>
-                <div class="flex justify-center py-2">
-                    <svg width="200" height="150" viewBox="0 0 200 150" class="border rounded-xl bg-white shadow-sm">
-                        <circle cx="100" cy="75" r="55" fill="none" stroke="#e2e8f0" stroke-dasharray="4" />
-                        <path d="M40,110 L160,110" stroke="#334155" stroke-width="2" />
-                        <text x="165" y="125" font-size="10" font-weight="bold">S</text>
-                        <line x1="100" y1="35" x2="100" y2="110" stroke="#ef4444" stroke-width="2" />
-                        <text x="95" y="30" font-size="10" fill="#ef4444" font-weight="bold">T</text>
-                        <text x="95" y="125" font-size="10">V</text>
-                        <circle cx="55" cy="45" r="3" fill="#2563eb" />
-                        <text x="45" y="40" font-size="10" fill="#2563eb">U(-5,5)</text>
-                        <rect x="100" y="100" width="10" height="10" fill="none" stroke="#ef4444" />
-                    </svg>
-                </div>
-                <p class="text-sm italic text-gray-600 bg-amber-50 p-3 rounded border border-amber-100">
-                    <strong>Theorem:</strong> Since ∠SVT = 90°, TS must be the diameter. Therefore, <strong>∠SUT = 90°</strong> (angles in semi-circle).
-                </p>
-            </div>
-
-            <!-- Step 4 -->
-            <div id="step-4" class="step-content space-y-4">
-                <h3 class="font-bold text-lg text-blue-800">Final Calculation</h3>
-                <div class="text-xs font-mono space-y-2 bg-slate-50 p-4 rounded-lg border">
-                    <p>Slope SU = -8 / (k + 7)</p>
-                    <p>Slope TU = (3k² - 31k - 92) / (5k² + 15k - 140)</p>
-                    <p class="pt-2 border-t font-bold">Equation: (Slope SU) × (Slope TU) = -1</p>
-                </div>
-                <div class="bg-white p-4 rounded-lg border shadow-sm text-center">
-                    <p class="text-sm text-gray-600">Expanding leads to:</p>
-                    <p class="font-bold text-blue-700 my-1">5k³ + 26k² + 213k - 244 = 0</p>
-                    <p class="text-sm">(k - 1)(5k² + 31k + 244) = 0</p>
-                </div>
-                <div class="bg-green-600 text-white p-4 rounded-xl shadow-lg text-center transform scale-105 transition-transform">
-                    <p class="text-2xl font-bold">k = 1</p>
-                    <p class="text-xs opacity-80 mt-1">Confirmed by 2025 DSE Marking Scheme</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Progress Bar -->
-        <div class="w-full bg-gray-200 h-2">
-            <div id="progress-bar" class="bg-blue-600 h-full transition-all duration-500 w-[20%]"></div>
-        </div>
-
-        <!-- Footer Navigation -->
-        <div class="p-6 bg-gray-50 flex justify-between items-center">
-            <button id="prev-btn" onclick="changeStep(-1)" disabled class="flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-gray-400 cursor-not-allowed">
-                <i data-lucide="chevron-left"></i> Back
-            </button>
-
-            <div id="dots-container" class="flex gap-2">
-                <!-- Dots injected by JS -->
-            </div>
-
-            <button id="next-btn" onclick="changeStep(1)" class="flex items-center gap-2 px-6 py-2 rounded-lg font-bold bg-blue-600 text-white hover:bg-blue-700 transition shadow-md">
-                <span>Continue</span> <i data-lucide="chevron-right"></i>
-            </button>
         </div>
     </div>
 
     <script>
-        let currentStep = 0;
-        const totalSteps = 5;
-        const stepTitles = ["Introduction", "Part (a)", "Part (b)(i)", "Geometry", "Final Result"];
+        // The API key is injected by the environment. When exported, this will be empty.
+        const apiKey = typeof __initial_auth_token !== 'undefined' ? "" : ""; 
+        
+        const contentArea = document.getElementById('content-area');
+        const taskText = document.getElementById('current-task');
+        const counterText = document.getElementById('step-counter');
+        const startBtn = document.getElementById('start-btn');
+        const overlay = document.getElementById('overlay');
+        const progressFill = document.getElementById('progress-fill');
+        const speakerStatus = document.getElementById('speaker-status');
 
-        function updateUI() {
-            // Update step visibility
-            document.querySelectorAll('.step-content').forEach((el, index) => {
-                el.classList.toggle('active', index === currentStep);
-            });
+        let currentQuestionIndex = 0;
+        let activeNarration = null;
 
-            // Update text/progress
-            document.getElementById('current-step-num').innerText = currentStep + 1;
-            document.getElementById('step-title').innerText = stepTitles[currentStep];
-            document.getElementById('progress-bar').style.width = `${((currentStep + 1) / totalSteps) * 100}%`;
-
-            // Update buttons
-            const prevBtn = document.getElementById('prev-btn');
-            const nextBtn = document.getElementById('next-btn');
-
-            if (currentStep === 0) {
-                prevBtn.disabled = true;
-                prevBtn.className = "flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-gray-400 cursor-not-allowed";
-            } else {
-                prevBtn.disabled = false;
-                prevBtn.className = "flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-blue-600 hover:bg-blue-100 transition";
+        const tutorialData = [
+            {
+                title: "Question 1: Least Positive Integer",
+                script: "To solve x minus 6 is less than or equal to 2 minus 3x, we group the x terms. Add 3x to both sides to get 4x, and add 6 to get 8. Dividing by 4 gives x is less than or equal to 2. The positive integers are 1 and 2, so the least one is 1.",
+                lines: ["Solve: x − 6 ≤ 2 − 3x", "4x ≤ 8", "x ≤ 2", "Positive integers: 1, 2", "Least positive integer: 1", "Answer: C"]
+            },
+            {
+                title: "Question 2: Ratio Logic",
+                script: "If a over b is greater than 1, check the statements. One: a is greater than b is false if b is negative. Two: a squared is greater than b squared is true. Three: a times b is positive is true because they must have the same sign. So the answer is 2 and 3 only.",
+                lines: ["Given: a/b > 1", "I: a > b (False if b < 0)", "II: (a/b)² > 1² → a² > b² (True)", "III: ab > 0 (True: same signs)", "Answer: II and III only (D)"]
+            },
+            {
+                title: "Question 3: OR Union",
+                script: "Solving x plus 9 is less than 8 gives x is less than negative 1. Solving 3 times 5 plus x is less than negative 12 gives x is less than negative 9. Since it is an OR statement, we combine the ranges. x less than negative 1 covers everything.",
+                lines: ["x + 9 < 8  OR  3(5 + x) < −12", "x < −1  OR  x < −9", "Union: x < −1", "Answer: A"]
+            },
+            {
+                title: "Question 4: Fractional Overlap",
+                script: "First, 4 times 5 minus x is greater than 8 gives x less than 3. Second, 8 is greater than or equal to 1 plus 3x over 2 gives x less than or equal to 5. The overlap is x less than 3. The integers are 1 and 2.",
+                lines: ["4(5−x) > 8 AND 8 ≥ (1+3x)/2", "5−x > 2 → x < 3", "16 ≥ 1+3x → x ≤ 5", "Overlap: x < 3", "Pos. Ints: {1, 2} → Count: 2", "Answer: A"]
+            },
+            {
+                title: "Question 5: Greatest Integer (OR)",
+                script: "Solving the first part gives x less than 3. The second gives x less than or equal to negative 3. The union is x less than 3. The greatest integer strictly less than 3 is 2.",
+                lines: ["(1−x)/2 > 3x−10 OR 2x+7 ≤ 1", "x < 3 OR x ≤ −3", "Union: x < 3", "Greatest Integer: 2", "Answer: C"]
+            },
+            {
+                title: "Question 6: Solving for k",
+                script: "The first part gives x is less than or equal to negative 5. The second part is x is less than k. If the final solution is x less than or equal to negative 5, then k must be larger than negative 5.",
+                lines: ["4(x+2) ≤ x−7 → x ≤ −5", "x < k", "Final Sol: x ≤ −5", "Requirement: k > −5", "Answer: B"]
+            },
+            {
+                title: "Question 7: Quadratic Factoring",
+                script: "Factorizing x squared minus x minus 2 gives x minus 2 times x plus 1. For the quadratic to be less than zero, x must lie between the roots negative 1 and 2.",
+                lines: ["x² − x − 2 < 0", "(x − 2)(x + 1) < 0", "Roots: −1, 2", "Region: −1 < x < 2", "Answer: D"]
+            },
+            {
+                title: "Question 8: Finding y > 0",
+                script: "The graph has a vertex at negative 1, negative 32. We find the x-intercepts by setting y to 0, which are negative 5 and 3. Since it opens upward, it is above the axis outside these values.",
+                lines: ["y = 2(x + 1)² − 32", "0 = 2(x + 1)² − 32 → (x+1)² = 16", "x+1 = ±4 → x = −5, 3", "Range: x < −5 or x > 3", "Answer: A"]
+            },
+            {
+                title: "Question 9: Discriminant Method",
+                script: "For a quadratic to be always non-negative, its discriminant must be less than or equal to zero. This gives us k squared plus k minus 2 is less than or equal to zero. The range for k is negative 2 to 1. The greatest value is 1.",
+                lines: ["x² − 2kx + 2 − k ≥ 0", "Δ = (−2k)² − 4(2−k) ≤ 0", "k² + k − 2 ≤ 0 → (k+2)(k−1) ≤ 0", "Range: −2 ≤ k ≤ 1", "Greatest k: 1", "Answer: B"]
+            },
+            {
+                title: "Question 10: Linear-Quadratic",
+                script: "Combine the equations to get x squared plus k minus 2 times x plus 16 is 0. For two intersections, the discriminant must be positive. This means k minus 2 squared is greater than 64.",
+                lines: ["x² + kx + 9 = 2x − 7", "x² + (k−2)x + 16 = 0", "Two roots → Δ > 0", "(k−2)² − 64 > 0 → (k−2)² > 64", "Result: k < −6 or k > 10", "Answer: D"]
             }
+        ];
 
-            if (currentStep === totalSteps - 1) {
-                nextBtn.innerHTML = '<span>Finish</span> <i data-lucide="check-circle"></i>';
-                nextBtn.className = "flex items-center gap-2 px-6 py-2 rounded-lg font-bold bg-green-600 text-white transition shadow-md";
-            } else {
-                nextBtn.innerHTML = '<span>Continue</span> <i data-lucide="chevron-right"></i>';
-                nextBtn.className = "flex items-center gap-2 px-6 py-2 rounded-lg font-bold bg-blue-600 text-white hover:bg-blue-700 transition shadow-md";
+        async function speak(text, retryCount = 2) {
+            if (activeNarration) { activeNarration.pause(); activeNarration = null; }
+            
+            speakerStatus.innerText = "NARRATOR LOADING...";
+            speakerStatus.classList.add('audio-active');
+            
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: text }] }],
+                        generationConfig: {
+                            responseModalities: ["AUDIO"],
+                            speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Kore" } } }
+                        }
+                    })
+                });
+
+                if (!response.ok) throw new Error("API Limit or Key Missing");
+
+                const result = await response.json();
+                const audioData = result.candidates[0].content.parts[0].inlineData.data;
+                const audioBlob = pcmToWav(audioData, 24000);
+                const audioUrl = URL.createObjectURL(audioBlob);
+                const audio = new Audio(audioUrl);
+                activeNarration = audio;
+                
+                return new Promise(resolve => {
+                    audio.onplay = () => { speakerStatus.innerText = "NARRATING"; };
+                    audio.onended = () => { 
+                        speakerStatus.innerText = "IDLE"; 
+                        speakerStatus.classList.remove('audio-active');
+                        resolve(); 
+                    };
+                    audio.play().catch(e => {
+                        console.warn("Autoplay blocked");
+                        speakerStatus.innerText = "CLICK REPLAY FOR SOUND";
+                        resolve();
+                    });
+                });
+            } catch (err) {
+                console.error(err);
+                if (retryCount > 0) return speak(text, retryCount - 1);
+                speakerStatus.innerText = "AUDIO UNAVAILABLE";
+                speakerStatus.classList.remove('audio-active');
+                return new Promise(r => setTimeout(r, 5000));
             }
-
-            // Update dots
-            updateDots();
-            lucide.createIcons();
         }
 
-        function updateDots() {
-            const container = document.getElementById('dots-container');
-            container.innerHTML = '';
-            for (let i = 0; i < totalSteps; i++) {
-                const dot = document.createElement('div');
-                dot.className = `h-2 w-2 rounded-full transition-all duration-300 ${i === currentStep ? 'bg-blue-600 scale-125' : 'bg-gray-300'}`;
-                container.appendChild(dot);
-            }
+        function pcmToWav(base64, sampleRate) {
+            const buffer = Uint8Array.from(atob(base64), c => c.charCodeAt(0)).buffer;
+            const wavHeader = new ArrayBuffer(44);
+            const view = new DataView(wavHeader);
+            view.setUint32(0, 0x52494646, false); view.setUint32(4, 36 + buffer.byteLength, true);
+            view.setUint32(8, 0x57415645, false); view.setUint32(12, 0x666d7420, false);
+            view.setUint32(16, 16, true); view.setUint16(20, 1, true);
+            view.setUint16(22, 1, true); view.setUint32(24, sampleRate, true);
+            view.setUint32(28, sampleRate * 2, true); view.setUint16(32, 2, true);
+            view.setUint16(34, 16, true); view.setUint32(36, 0x64617461, false);
+            view.setUint32(40, buffer.byteLength, true);
+            return new Blob([wavHeader, buffer], { type: 'audio/wav' });
         }
 
-        function changeStep(dir) {
-            const next = currentStep + dir;
-            if (next >= 0 && next < totalSteps) {
-                currentStep = next;
-                updateUI();
+        async function playQuestion(index) {
+            if (index < 0 || index >= tutorialData.length) return;
+            
+            currentQuestionIndex = index;
+            const q = tutorialData[index];
+            
+            contentArea.innerHTML = '';
+            taskText.innerText = q.title;
+            counterText.innerText = `Q ${index + 1}/10`;
+            progressFill.style.width = `${((index + 1) / 10) * 100}%`;
+
+            const narrationPromise = speak(q.script);
+
+            for (let i = 0; i < q.lines.length; i++) {
+                const line = document.createElement('div');
+                line.className = 'chalk-line';
+                line.style.top = `${40 + (i * 65)}px`;
+                line.innerHTML = q.lines[i].replace(/(≤|≥|>|<|−|→|=)/g, '<span class="highlight">$1</span>');
+                contentArea.appendChild(line);
+                
+                await new Promise(r => setTimeout(r, 800));
+                line.classList.add('visible');
+                await new Promise(r => setTimeout(r, 1200));
             }
+
+            await narrationPromise;
         }
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            updateUI();
+        startBtn.addEventListener('click', () => {
+            overlay.style.opacity = '0';
+            // Pre-unlock audio for browser
+            const silent = new Audio();
+            silent.play().catch(()=>{});
+
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                playQuestion(0);
+            }, 700);
         });
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            if (currentQuestionIndex < 9) playQuestion(currentQuestionIndex + 1);
+        });
+
+        document.getElementById('prev-btn').addEventListener('click', () => {
+            if (currentQuestionIndex > 0) playQuestion(currentQuestionIndex - 1);
+        });
+
+        document.getElementById('play-pause-btn').addEventListener('click', () => {
+            playQuestion(currentQuestionIndex);
+        });
+
     </script>
 </body>
 </html>
